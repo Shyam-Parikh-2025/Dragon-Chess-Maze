@@ -1,6 +1,6 @@
 ========================================================================
                        DRAGON CHESS MAZE
-                    by A_Mazing Designers (Shyam and Sam)
+                    by A_Mazing Designers (Shyam Parikh and Sam Bonick)
 ========================================================================
 
 PROJECT OVERVIEW
@@ -96,4 +96,5 @@ For modernGl:
 For Chess:
 - https://youtu.be/_vqlIPDR2TU?si=0uiNtLrtIJMjF8E1
 - https://youtu.be/X-e0jk4I938?si=8ku0YFi0XqQldcXE
+
 - https://youtu.be/OpL0Gcfn4B4?si=18hJkN6JzBymSZAr
