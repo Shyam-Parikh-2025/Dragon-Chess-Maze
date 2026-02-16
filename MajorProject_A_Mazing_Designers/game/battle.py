@@ -8,7 +8,7 @@ class Battle:
     def __init__(self, surface, dragon_level, dragon_name, player, super_mode=None):
         self.surface = surface
         self.super_mode = super_mode
-        self.chess_engine = Chess(super_mode=super_mode)
+        self.chess_engine = Chess(super_mode=self.super_mode)
         self.is_active = True
         self.selected_sq = None
         self.hover_sq = None
@@ -17,6 +17,7 @@ class Battle:
         self.player.can_move = False
         self.dragon = Dragon(dragon_name, dragon_level)
         self.dragon_level = dragon_level
+        self.game_over_processed = False
     
     def handle_event(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
@@ -88,12 +89,16 @@ class Battle:
             self.check_game_over(self.player)
 
     def player_won(self):
+        if self.game_over_processed: return
+        self.game_over_processed = True
         self.player.dragons_beaten += 1
         self.player.playing_chess = False
         self.player.can_move = True
         self.update_score(self.dragon_level)
     
     def player_lost(self):
+        if self.game_over_processed: return
+        self.game_over_processed = True
         self.player.lives -= 1
         self.player.playing_chess = False
         self.player.can_move = True
