@@ -24,6 +24,18 @@ class Player:
         self.angle_y = np.clip(self.angle_y, -np.pi / 2, np.pi / 2)
 
     def update(self, keys, grid):
+        """
+        Calculates movement based on the keyboard input and camera angle controlled
+        by the mouse.
+        
+        Math (Trig):
+        - Forward/Backward (W/S):  x += cos(angle), z += sin(angle), or x -= cos(angle), z -= sin(angle)
+        - Strafing (A/D): Uses sin/cos offset by 90 degrees.
+        
+        Physics:
+        - Movement is calculated tentatively (delta_x, delta_z).
+        - Then passed to collision_checker to see if it hits a wall.
+        """
         self.angle_mouse()
         sin_a = np.sin(self.angle_x)
         cos_a = np.cos(self.angle_x)
@@ -37,12 +49,12 @@ class Player:
             if keys[pg.K_s] or keys[pg.K_DOWN]:
                 delta_x -= speed * cos_a
                 delta_z -= speed * sin_a
-            '''if keys[pg.K_a] or keys[pg.K_LEFT]:
+            if keys[pg.K_a] or keys[pg.K_LEFT]:
                 delta_x += speed * sin_a
                 delta_z -= speed * cos_a
             if keys[pg.K_d] or keys[pg.K_RIGHT]:
                 delta_x -= speed * sin_a
-                delta_z += speed * cos_a''' # fix for later
+                delta_z += speed * cos_a
 
             if delta_x != 0.0 and delta_z != 0.0:
                 length = np.hypot(delta_x, delta_z)
@@ -54,6 +66,13 @@ class Player:
         self.collision_checker(delta_x, delta_z, grid)
 
     def collision_checker(self, dx, dz, grid):
+        """
+        Collision Detection for player-grid interactions.
+        
+        Instead of checking the exact player mesh (which we did not do yet),
+        we check if the player's center point + radius is in a grid cell with the
+        value '1' (Wall). We update X and Z separately - allows sliding.
+        """
         rows, cols = grid.shape
 
         to_be_x = self.pos[0] + dx
