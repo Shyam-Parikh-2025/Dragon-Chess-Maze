@@ -54,6 +54,7 @@ class BattleScene(Scene):
             if self.resolved :
                 return
             self.resolved = True
+            # victory
             if self.battle.chess_engine.is_checkmate() and not self.battle.chess_engine.white_turn:
                 if self.battle.dragon_level == 1:
                     print("YOU WIN!!!")
@@ -65,20 +66,26 @@ class BattleScene(Scene):
                 r, c = self.game.current_battle_pos                
                 self.game.grid[r, c] = 0
                 print("One Battle cleared!")
-            if self.game.player.lives <= 0:
+            #defeat check if lives lost
+            elif self.game.player.lives <= 0:
                 print("Game Over")
                 pg.event.set_grab(False)
                 pg.mouse.set_visible(True)
                 self.game.change_scene(EndScreen(self.game, victory=False))
                 return
+            else:
+                print("Stalemate - Respawn at start (includes if any player has no more moves)")
+                self.game.player.pos[0] = 2.0
+                self.game.player.pos[1] = 2.0
             self.game.player.playing_chess = False
             self.game.player.speed = 0.1
+            self.game.player.can_move = True
 
             pg.event.set_grab(True)
             pg.mouse.set_visible(False)
             
             self.game.change_scene(self.game.maze_scene)
-    
+            pg.time.wait(1)
     def render(self):
         game = self.game
 
