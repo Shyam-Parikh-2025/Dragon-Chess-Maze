@@ -30,16 +30,25 @@ class Dragon:
         if self.difficulty == 0:
             return valid_moves[np.random.randint(len(valid_moves))]
         else:
-            return self.find_best_move(game, valid_moves, depth=3)
+            return self.find_best_move(game, valid_moves, depth=4)
     
     def find_best_move(self, game, valid_moves, depth):
+        """
+        Starts the Minimax algorithm with Alpha-Beta pruning to find the best move.
+        Arguments:
+            game (chess): A copy of the game engine to simulate moves on.
+            valid_moves (list): List of currently available legal moves.
+            depth (int): How many turns ahead the AI should calculate.
+        Returns:
+            tuple: The best move ((start_r, start_c), (end_r, end_c))
+        """
         best_move = valid_moves[0]
 
         best_score = float('inf')
         alpha = float('-inf')
         beta = float('inf')
 
-        np.random.shuffle(valid_moves)
+        np.random.shuffle(valid_moves) # have to improve later to optimize better with alpha beta pruning
         for move in valid_moves:
             game.make_move(move)
             score = self.minimax(game, depth-1, alpha, beta, True)
@@ -54,6 +63,14 @@ class Dragon:
         return best_move
 
     def minimax(self, game, depth, alpha, beta, mazimizing_player):
+        """
+        Recursive search function that builds a decision tree.
+        Alpha-Beta Pruning:
+        - Alpha: The best score the Maximizer (AI) can guarantee so far.
+        - Beta: The best score the Minimizer (Player) can guarantee so far.
+        If Beta <= Alpha, the branch is 'pruned' (skipped) because the opponent 
+        would never allow that to happen.
+        """
         if depth == 0:
             return self.evaluate_board(game.board)
         valid_moves = game.get_valid_moves()
