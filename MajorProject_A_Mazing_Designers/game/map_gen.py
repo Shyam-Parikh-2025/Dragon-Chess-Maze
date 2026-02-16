@@ -70,6 +70,20 @@ class MazeGen:
 
 @njit
 def _gen_maze(h, w):
+    """
+    Generates a maze using Recursive Backtracking - iterative to avoid the recursion limit.
+    
+    Algorithm:
+    1. Mark the starting cell as a room (0).
+    2. Append it to stack.
+    3. While the stack is not empty:
+        a. Pop the last cell in the stack list.
+        b. If the current cell has any neighbours which have not been visited:
+            i. Append the current cell to the stack.
+            ii. Choose one of the unvisited neighbours randomly.
+            iii. Remove the wall between the current cell and the chosen neighbour.
+            iv. Make the chosen neighbour as 0 (so room) and append it to the stack.
+    """
     maze = np.ones((h, w), dtype=np.int8)
     start_r, start_c = 1, 1
     maze[start_r, start_c] = 0
