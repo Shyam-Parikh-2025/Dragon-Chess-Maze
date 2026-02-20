@@ -105,5 +105,3 @@ class BattleScene(Scene):
         self.quit_button.draw()
         game.graphic3d.render_2d_surf(game.graphic2d_surf)
 
-
-
