@@ -86,7 +86,7 @@ Developed by: Shyam and Sam
 School: Old Bridge High School
 Date: February 2026
 Images: From https://github.com/AlejoG10/python-chess-ai-yt
-Also, for the GDD, some of the several images are AI-generated, but they are credited under the images.
+Also, for the Dragons, some of the several images are AI-generated (Gemini).
 
 This project represents my first major implementation using object-oriented programming. I learned many concepts and techniques from the following YouTube creators:
 - Coding Spot
@@ -99,4 +99,5 @@ For modernGl:
 For Chess:
 - https://youtu.be/_vqlIPDR2TU?si=0uiNtLrtIJMjF8E1
 - https://youtu.be/X-e0jk4I938?si=8ku0YFi0XqQldcXE
+
 - https://youtu.be/OpL0Gcfn4B4?si=18hJkN6JzBymSZAr
