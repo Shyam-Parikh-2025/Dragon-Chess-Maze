@@ -24,8 +24,6 @@ class BattleScene(Scene):
                                on_click=self.surrender, 
                                text="SURRENDER", ACTIVE_COLOR=(255, 80, 80))
         self.resolved = False
-        # NEW
-        self.mouse_pos = pg.mouse.get_pos()
         
     def surrender(self):
         self.battle.player_lost()
@@ -60,14 +58,12 @@ class BattleScene(Scene):
             self.resolved = True
             # victory
             if self.battle.chess_engine.is_checkmate() and not self.battle.chess_engine.white_turn:
-                tamed = self.fps_feature() # NEW
-                if tamed:
-                    if self.battle.dragon_level == BOSS_DRAG_LEVEL:
-                        print("YOU WIN!!!")
-                        pg.event.set_grab(False)
-                        pg.mouse.set_visible(True)
-                        self.game.change_scene(EndScreen(self.game, victory=True))
-                        return
+                if self.battle.dragon_level == BOSS_DRAG_LEVEL:
+                    print("YOU WIN!!!")
+                    pg.event.set_grab(False)
+                    pg.mouse.set_visible(True)
+                    self.game.change_scene(EndScreen(self.game, victory=True))
+                    return
     
                     r, c = self.game.current_battle_pos                
                     self.game.grid[r, c] = 0
@@ -108,5 +104,6 @@ class BattleScene(Scene):
         game.graphic2d.draw_fps(self.battle.ai_thinking, True)
         self.quit_button.draw()
         game.graphic3d.render_2d_surf(game.graphic2d_surf)
+
 
 
