@@ -1,0 +1,6 @@
+pygame
+moderngl
+pyrr
+numpy
+numba
+moderngl-window
