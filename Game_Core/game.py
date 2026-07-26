@@ -8,10 +8,31 @@ from Game_Core.map_gen import MapGen
 
 base_path = Path(__file__).resolve().parent
 
+
+def _set_gl_context_attrs():
+    """
+    Request an OpenGL 3.3 Core (forward-compatible) context.
+    Windows' default driver is lenient and will run #version 330 shaders
+    even without this, but macOS only exposes legacy OpenGL 2.1 unless a
+    Core Profile 3.3+ context is explicitly requested, which breaks our
+    #version 330 shaders. This must be called before every set_mode()
+    call that creates an OPENGL surface.
+    """
+    pg.display.gl_set_attribute(pg.GL_CONTEXT_MAJOR_VERSION, 3)
+    pg.display.gl_set_attribute(pg.GL_CONTEXT_MINOR_VERSION, 3)
+    pg.display.gl_set_attribute(
+        pg.GL_CONTEXT_PROFILE_MASK, pg.GL_CONTEXT_PROFILE_CORE
+    )
+    pg.display.gl_set_attribute(pg.GL_CONTEXT_FORWARD_COMPATIBLE_FLAG, 1)
+    pg.display.gl_set_attribute(pg.GL_DEPTH_SIZE, 24)
+    pg.display.gl_set_attribute(pg.GL_DOUBLEBUFFER, 1)
+
+
 class Game:
     def __init__(self):
         pg.init()
         self.is_fullscreen = False
+        _set_gl_context_attrs()
         self.screen = pg.display.set_mode((constants.WIDTH, constants.HEIGHT), pg.OPENGL | pg.DOUBLEBUF | pg.RESIZABLE)
 
         self.clock = pg.time.Clock()
@@ -65,6 +86,7 @@ class Game:
                     self.running = False
                 if event.type == pg.KEYDOWN and event.key == pg.K_F11:
                     self.is_fullscreen = not self.is_fullscreen
+                    _set_gl_context_attrs()
                     if self.is_fullscreen:
                         self.screen = pg.display.set_mode((constants.WIDTH,constants.HEIGHT),
                                                           pg.OPENGL | pg.DOUBLEBUF | pg.FULLSCREEN)
